@@ -45,5 +45,6 @@ class DashboardFragment : Fragment() {
         })
 
         viewModel.getMovieList()
+        //viewModel.changeCategory("trending")
     }
 }
