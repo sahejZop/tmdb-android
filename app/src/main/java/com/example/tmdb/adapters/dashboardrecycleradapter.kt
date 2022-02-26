@@ -16,8 +16,8 @@ class dashboardrecycleradapter() : RecyclerView.Adapter<dashboardrecycleradapter
     lateinit var binding : MoviecardBinding
     var moviesList: MovieListData? = null
 
-    fun setMovieList(moviesList: MovieListData){
-        this.moviesList = moviesList
+    fun setMovieList(moviesListpar: MovieListData){
+        moviesList = moviesListpar
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): dashboardrecycleradapter.viewHolder {
@@ -29,9 +29,7 @@ class dashboardrecycleradapter() : RecyclerView.Adapter<dashboardrecycleradapter
     override fun onBindViewHolder(holder: dashboardrecycleradapter.viewHolder, position: Int) {
         val BASE_URL: String = "https://image.tmdb.org/t/p/original"
         val dataObj = moviesList?.results?.get(position)
-        if (dataObj != null) {
-            holder.moviename.text = dataObj.title
-        }
+        holder.moviename.text = dataObj?.title
         holder.rating.text = dataObj?.vote_average
         holder.releaseDate.text = dataObj?.release_date
 
@@ -39,12 +37,7 @@ class dashboardrecycleradapter() : RecyclerView.Adapter<dashboardrecycleradapter
     }
 
     override fun getItemCount(): Int {
-        if (moviesList == null)
-        {
-            Log.d("adapter", "null h")
-            return 0
-        }
-        return moviesList!!.results.size
+        return moviesList?.results?.size ?: 0
     }
 
     inner class viewHolder(view: View, val binding: MoviecardBinding): RecyclerView.ViewHolder(view){

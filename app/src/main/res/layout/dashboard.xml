@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="#2C2C30"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,8 +10,6 @@
         android:id="@+id/chip_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#032541"
-
         app:checkedChip="@id/chip_nowplaying"
         app:singleSelection="true">
 
@@ -37,15 +36,12 @@
             android:text="Top Rated" />
     </com.google.android.material.chip.ChipGroup>
 
-<androidx.recyclerview.widget.RecyclerView
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/movieslist"
-    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-    android:layout_below="@+id/chip_group"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:listitem="@layout/moviecard" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclermovieslist"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/chip_group"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        tools:listitem="@layout/moviecard" />
 
 </RelativeLayout>

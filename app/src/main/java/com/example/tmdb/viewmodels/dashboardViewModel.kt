@@ -17,12 +17,25 @@ class dashboardViewModel (private val repository: repository): ViewModel(){
     val errorMessage = MutableLiveData<String>()
     private val category = MutableLiveData<String>("popular")
 
-    /*
     fun changeCategory(string: String){
         category.value = string
-        getMovieList()
+        getMovieListquery(string)
     }
-     */
+
+    fun getMovieListquery(category: String){
+        val response = repository.getMovieListquery(category)
+        response.enqueue(object : Callback<MovieListData>{
+            override fun onResponse(call: Call<MovieListData>, response: Response<MovieListData>) {
+                _movieList.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<MovieListData>, t: Throwable) {
+                //TODO("Not yet implemented")
+                errorMessage.postValue(t.message)
+            }
+        })
+
+    }
 
     fun getMovieList(language: String, page: Int){
         val response = repository.getMovieList(language, page)

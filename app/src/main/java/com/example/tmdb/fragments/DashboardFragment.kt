@@ -28,33 +28,39 @@ class DashboardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        viewModel = ViewModelProvider(this, MyViewModelFactory(repository(retrofitService))).get(dashboardViewModel::class.java)
+        viewModel = ViewModelProvider(this, MyViewModelFactory(repository(retrofitService))).
+                                          get(dashboardViewModel::class.java)
 
         binding = DashboardBinding.inflate(layoutInflater)
+
         binding.chipNowplaying.setOnClickListener(View.OnClickListener {
             viewModel.getMovieList("en", 1)
         })
+
         binding.chipToprated.setOnClickListener(View.OnClickListener {
             viewModel.getTopRatedList("en", 1)
         })
+
         binding.chipUpcoming.setOnClickListener(View.OnClickListener {
             viewModel.getUpcomingMovies("en", 1)
         })
 
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.movieslist.adapter = adapter
+        binding.recyclermovieslist.setHasFixedSize(true)
+        binding.recyclermovieslist.setItemViewCacheSize(20)
 
         viewModel.movieList.observe(viewLifecycleOwner, Observer {
-            binding.movieslist.layoutManager = GridLayoutManager(activity, 2)
+            binding.recyclermovieslist.layoutManager = GridLayoutManager(activity, 2)
             adapter.setMovieList(it)
+            binding.recyclermovieslist.adapter = adapter
         })
 
+        //viewModel.getMovieListquery("en")
         viewModel.getMovieList("en", 1)
         //viewModel.changeCategory("trending")
     }
