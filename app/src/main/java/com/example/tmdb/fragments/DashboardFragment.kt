@@ -29,7 +29,18 @@ class DashboardFragment : Fragment() {
     ): View {
 
         viewModel = ViewModelProvider(this, MyViewModelFactory(repository(retrofitService))).get(dashboardViewModel::class.java)
+
         binding = DashboardBinding.inflate(layoutInflater)
+        binding.chipNowplaying.setOnClickListener(View.OnClickListener {
+            viewModel.getMovieList("en", 1)
+        })
+        binding.chipToprated.setOnClickListener(View.OnClickListener {
+            viewModel.getTopRatedList("en", 1)
+        })
+        binding.chipUpcoming.setOnClickListener(View.OnClickListener {
+            viewModel.getUpcomingMovies("en", 1)
+        })
+
         return binding.root
 
     }
@@ -44,7 +55,7 @@ class DashboardFragment : Fragment() {
             adapter.setMovieList(it)
         })
 
-        viewModel.getMovieList()
+        viewModel.getMovieList("en", 1)
         //viewModel.changeCategory("trending")
     }
 }

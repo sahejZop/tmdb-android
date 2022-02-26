@@ -9,7 +9,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class dashboardViewModel constructor(private val repository: repository): ViewModel(){
+class dashboardViewModel (private val repository: repository): ViewModel(){
 
     private val _movieList = MutableLiveData<MovieListData>()
     val movieList: LiveData<MovieListData> = _movieList
@@ -17,13 +17,44 @@ class dashboardViewModel constructor(private val repository: repository): ViewMo
     val errorMessage = MutableLiveData<String>()
     private val category = MutableLiveData<String>("popular")
 
+    /*
     fun changeCategory(string: String){
         category.value = string
         getMovieList()
     }
+     */
 
-    fun getMovieList(){
-        val response = repository.getMovieList()
+    fun getMovieList(language: String, page: Int){
+        val response = repository.getMovieList(language, page)
+        response.enqueue(object : Callback<MovieListData>{
+            override fun onResponse(call: Call<MovieListData>, response: Response<MovieListData>) {
+                _movieList.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<MovieListData>, t: Throwable) {
+                //TODO("Not yet implemented")
+                errorMessage.postValue(t.message)
+            }
+        })
+
+    }
+    fun getTopRatedList(language: String, page: Int){
+        val response = repository.getTopRatedList(language, page)
+        response.enqueue(object : Callback<MovieListData>{
+            override fun onResponse(call: Call<MovieListData>, response: Response<MovieListData>) {
+                _movieList.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<MovieListData>, t: Throwable) {
+                //TODO("Not yet implemented")
+                errorMessage.postValue(t.message)
+            }
+        })
+
+    }
+
+    fun getUpcomingMovies(language: String, page: Int){
+        val response = repository.getUpcomingMovies(language, page)
         response.enqueue(object : Callback<MovieListData>{
             override fun onResponse(call: Call<MovieListData>, response: Response<MovieListData>) {
                 _movieList.postValue(response.body())

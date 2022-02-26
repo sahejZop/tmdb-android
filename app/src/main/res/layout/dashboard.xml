@@ -1,4 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#032541"
+
+        app:checkedChip="@id/chip_nowplaying"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_nowplaying"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:checkable="true"
+            android:text="Now playing" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_upcoming"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="Upcoming" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_toprated"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="Top Rated" />
+    </com.google.android.material.chip.ChipGroup>
 
 <androidx.recyclerview.widget.RecyclerView
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -6,6 +43,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/movieslist"
     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+    android:layout_below="@+id/chip_group"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:listitem="@layout/moviecard" />
+
+</RelativeLayout>

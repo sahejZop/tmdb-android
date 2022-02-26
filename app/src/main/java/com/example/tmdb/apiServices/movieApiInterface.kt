@@ -25,19 +25,19 @@ interface movieApiInterface {
 */
 
     @GET("movie/now_playing?api_key=55157ca6962686fb13267f7f9342c2d5")
-    suspend fun getMovieList(
+    fun getMovieList(
         @Query("language") language: String,
         @Query("page") page: Int,
     ): Call<MovieListData>
 
     @GET("movie/top_rated?api_key=55157ca6962686fb13267f7f9342c2d5")
-    suspend fun getTopRatedList(
+    fun getTopRatedList(
         @Query("language") language: String,
         @Query("page") page: Int,
     ): Call<MovieListData>
 
     @GET("movie/upcoming?api_key=55157ca6962686fb13267f7f9342c2d5")
-    suspend fun getUpcomingMovies(
+    fun getUpcomingMovies(
         @Query("language") language: String,
         @Query("page") page: Int,
     ): Call<MovieListData>
