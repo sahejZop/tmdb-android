@@ -37,6 +37,7 @@ class dashboardViewModel (private val repository: repository): ViewModel(){
 
     }
 
+    /*
     fun getMovieList(language: String, page: Int){
         val response = repository.getMovieList(language, page)
         response.enqueue(object : Callback<MovieListData>{
@@ -80,5 +81,7 @@ class dashboardViewModel (private val repository: repository): ViewModel(){
         })
 
     }
+
+     */
 
 }

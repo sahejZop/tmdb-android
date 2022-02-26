@@ -34,15 +34,15 @@ class DashboardFragment : Fragment() {
         binding = DashboardBinding.inflate(layoutInflater)
 
         binding.chipNowplaying.setOnClickListener(View.OnClickListener {
-            viewModel.getMovieList("en", 1)
+            viewModel.changeCategory("now_playing")
         })
 
         binding.chipToprated.setOnClickListener(View.OnClickListener {
-            viewModel.getTopRatedList("en", 1)
+            viewModel.changeCategory("top_rated")
         })
 
         binding.chipUpcoming.setOnClickListener(View.OnClickListener {
-            viewModel.getUpcomingMovies("en", 1)
+            viewModel.changeCategory("upcoming")
         })
 
         return binding.root
@@ -60,8 +60,8 @@ class DashboardFragment : Fragment() {
             binding.recyclermovieslist.adapter = adapter
         })
 
-        //viewModel.getMovieListquery("en")
-        viewModel.getMovieList("en", 1)
+        //viewModel.getMovieListquery("popular")
+        viewModel.getMovieListquery("popular")
         //viewModel.changeCategory("trending")
     }
 }
