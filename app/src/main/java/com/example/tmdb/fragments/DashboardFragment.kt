@@ -23,7 +23,6 @@ class DashboardFragment : Fragment() {
     lateinit var viewModel: dashboardViewModel
     private val retrofitService = movieApiInterface.getInstance()
     val adapter = dashboardrecycleradapter()
-    val MovieDescriptionFragment = MovieDescriptionFragment()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,21 +47,18 @@ class DashboardFragment : Fragment() {
             viewModel.changeCategory("upcoming")
         })
 
-        context?.let {
-            RecyclerItemClickListenr(it, binding.recyclermovieslist, object : RecyclerItemClickListenr.OnItemClickListener {
+        binding.recyclermovieslist.addOnItemTouchListener(RecyclerItemClickListenr(requireContext(), binding.recyclermovieslist, object : RecyclerItemClickListenr.OnItemClickListener {
 
-                override fun onItemClick(view: View, position: Int) {
-                    activity?.supportFragmentManager?.beginTransaction()?.apply {
-                        replace(R.id.fl, MovieDescriptionFragment)
-                        commit()
-                    }
+            override fun onItemClick(view: View, position: Int) {
+                activity?.supportFragmentManager?.beginTransaction()?.apply {
+                    replace(R.id.fl, MovieDescriptionFragment())
+                    commit()
                 }
-
-                override fun onItemLongClick(view: View?, position: Int) {
-                    TODO("do nothing")
-                }
-            })
-        }?.let { binding.recyclermovieslist.addOnItemTouchListener(it) }
+            }
+            override fun onItemLongClick(view: View?, position: Int) {
+                TODO("do nothing")
+            }
+        }))
 
 
         return binding.root
