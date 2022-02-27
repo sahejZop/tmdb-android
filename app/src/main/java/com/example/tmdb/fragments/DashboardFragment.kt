@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.tmdb.R
+import com.example.tmdb.adapters.RecyclerItemClickListenr
 import com.example.tmdb.adapters.dashboardrecycleradapter
 import com.example.tmdb.apiServices.movieApiInterface
 import com.example.tmdb.databinding.DashboardBinding
@@ -21,6 +23,7 @@ class DashboardFragment : Fragment() {
     lateinit var viewModel: dashboardViewModel
     private val retrofitService = movieApiInterface.getInstance()
     val adapter = dashboardrecycleradapter()
+    val MovieDescriptionFragment = MovieDescriptionFragment()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +47,23 @@ class DashboardFragment : Fragment() {
         binding.chipUpcoming.setOnClickListener(View.OnClickListener {
             viewModel.changeCategory("upcoming")
         })
+
+        context?.let {
+            RecyclerItemClickListenr(it, binding.recyclermovieslist, object : RecyclerItemClickListenr.OnItemClickListener {
+
+                override fun onItemClick(view: View, position: Int) {
+                    activity?.supportFragmentManager?.beginTransaction()?.apply {
+                        replace(R.id.fl, MovieDescriptionFragment)
+                        commit()
+                    }
+                }
+
+                override fun onItemLongClick(view: View?, position: Int) {
+                    TODO("do nothing")
+                }
+            })
+        }?.let { binding.recyclermovieslist.addOnItemTouchListener(it) }
+
 
         return binding.root
     }

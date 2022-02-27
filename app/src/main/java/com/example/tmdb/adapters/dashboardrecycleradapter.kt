@@ -38,11 +38,18 @@ class dashboardrecycleradapter() : RecyclerView.Adapter<dashboardrecycleradapter
         return moviesList?.results?.size ?: 0
     }
 
-    inner class viewHolder(view: View, val binding: MoviecardBinding): RecyclerView.ViewHolder(view){
+    inner class viewHolder(view: View, val binding: MoviecardBinding): RecyclerView.ViewHolder(view), View.OnClickListener{
         var moviename = binding.movienameText
         var movieimg = binding.movieimg
         var releaseDate = binding.releaseDate
         var rating = binding.rating
+        var cardBtn = binding.card1
+
+        override fun onClick(view: View?) {
+            TODO("Not yet implemented")
+
+
+        }
     }
 
 }
