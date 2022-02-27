@@ -19,6 +19,7 @@ interface movieApiInterface {
         category: String
     ): Call<MovieListData>
 
+    /*
     @GET("movie/now_playing?api_key=55157ca6962686fb13267f7f9342c2d5")
     fun getMovieList(
         @Query("language") language: String,
@@ -36,6 +37,8 @@ interface movieApiInterface {
         @Query("language") language: String,
         @Query("page") page: Int,
     ): Call<MovieListData>
+
+     */
 
     companion object{
         var retroService: movieApiInterface? = null
