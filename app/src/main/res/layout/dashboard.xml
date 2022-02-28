@@ -10,16 +10,16 @@
         android:id="@+id/chip_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:checkedChip="@id/chip_nowplaying"
+        app:checkedChip="@id/chip_popular"
         app:singleSelection="true">
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/chip_nowplaying"
+            android:id="@+id/chip_popular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:checkable="true"
-            android:text="Now playing" />
+            android:text="Popular" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_upcoming"

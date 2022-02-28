@@ -4,12 +4,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
 import com.example.tmdb.R
+import com.example.tmdb.data.MovieData
 import com.example.tmdb.data.MovieListData
 import com.example.tmdb.databinding.MoviecardBinding
 
-class dashboardrecycleradapter() : RecyclerView.Adapter<dashboardrecycleradapter.viewHolder>() {
+class dashboardrecycleradapter(private val listener: OnClick) : RecyclerView.Adapter<dashboardrecycleradapter.viewHolder>() {
 
     lateinit var binding : MoviecardBinding
     var moviesList: MovieListData? = null
@@ -21,7 +23,18 @@ class dashboardrecycleradapter() : RecyclerView.Adapter<dashboardrecycleradapter
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): dashboardrecycleradapter.viewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.moviecard, parent, false)
         binding = MoviecardBinding.bind(view)
-        return viewHolder(view, binding)
+        val viewHolderobj = viewHolder(view, binding)
+
+        view.setOnClickListener{
+            /*
+            moviesList?.results?.get(viewHolderobj.adapterPosition)
+                ?.let { it1 -> listener.onItemClicked(it1) }
+
+             */
+            listener.onItemClicked(moviesList!!.results[viewHolderobj.adapterPosition])
+        }
+
+        return viewHolderobj
     }
 
     override fun onBindViewHolder(holder: dashboardrecycleradapter.viewHolder, position: Int) {
@@ -38,18 +51,15 @@ class dashboardrecycleradapter() : RecyclerView.Adapter<dashboardrecycleradapter
         return moviesList?.results?.size ?: 0
     }
 
-    inner class viewHolder(view: View, val binding: MoviecardBinding): RecyclerView.ViewHolder(view), View.OnClickListener{
+    class viewHolder(view: View, val binding: MoviecardBinding): ViewHolder(view){
         var moviename = binding.movienameText
         var movieimg = binding.movieimg
         var releaseDate = binding.releaseDate
         var rating = binding.rating
-        var cardBtn = binding.card1
 
-        override fun onClick(view: View?) {
-            TODO("Not yet implemented")
-
-
-        }
     }
+}
 
+interface OnClick{
+    fun onItemClicked(par: MovieData?)
 }
