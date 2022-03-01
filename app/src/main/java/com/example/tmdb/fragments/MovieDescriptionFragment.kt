@@ -28,8 +28,8 @@ class MovieDescriptionFragment(val MovieDataObj: MovieData?) : Fragment() {
         binding.movieTitle.text = MovieDataObj?.title
         binding.movieOverview.text = MovieDataObj?.overview
         binding.movieReleaseDate.text = MovieDataObj?.release_date
-        //context?.let { Glide.with(it).load(BASE_URL + MovieDataObj?.poster_path).into(binding.moviePoster) }
-        context?.let { Glide.with(it).load(BASE_URL + MovieDataObj?.poster_path).into(binding.movieBackdrop) }
+        context?.let { Glide.with(it).load(BASE_URL + MovieDataObj?.poster_path).into(binding.moviePoster) }
+        context?.let { Glide.with(it).load(BASE_URL + MovieDataObj?.backdrop_path).into(binding.movieBackdrop) }
         return binding.root
     }
 }

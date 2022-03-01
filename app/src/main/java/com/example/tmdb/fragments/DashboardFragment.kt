@@ -7,49 +7,43 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.tmdb.R
 import com.example.tmdb.adapters.OnClick
-import com.example.tmdb.adapters.RecyclerItemClickListenr
 import com.example.tmdb.adapters.dashboardrecycleradapter
 import com.example.tmdb.apiServices.movieApiInterface
 import com.example.tmdb.data.MovieData
 import com.example.tmdb.databinding.DashboardBinding
-import com.example.tmdb.repository.repository
-import com.example.tmdb.viewmodels.MyViewModelFactory
 import com.example.tmdb.viewmodels.dashboardViewModel
 
-class DashboardFragment : Fragment(), OnClick {
+class DashboardFragment(
+    private val viewModel: dashboardViewModel
+) : Fragment(), OnClick {
 
     lateinit var binding: DashboardBinding
-    lateinit var viewModel: dashboardViewModel
     private val retrofitService = movieApiInterface.getInstance()
-    val adapter = dashboardrecycleradapter(this)
+    private val adapter = dashboardrecycleradapter(this)
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        viewModel = ViewModelProvider(this, MyViewModelFactory(repository(retrofitService))).
-                                          get(dashboardViewModel::class.java)
-
         binding = DashboardBinding.inflate(layoutInflater)
 
+
+
         binding.chipPopular.setOnClickListener(View.OnClickListener {
-            viewModel.changeCategory("popular")
+            viewModel.changeCategory(POPULAR)
         })
 
         binding.chipToprated.setOnClickListener(View.OnClickListener {
-            viewModel.changeCategory("top_rated")
+            viewModel.changeCategory(TOP_RATED)
         })
 
         binding.chipUpcoming.setOnClickListener(View.OnClickListener {
-            viewModel.changeCategory("upcoming")
+            viewModel.changeCategory(UPCOMING)
         })
-
         /*
         binding.recyclermovieslist.addOnItemTouchListener(RecyclerItemClickListenr(requireContext(), binding.recyclermovieslist, object : RecyclerItemClickListenr.OnItemClickListener {
 
@@ -96,4 +90,20 @@ class DashboardFragment : Fragment(), OnClick {
             commit()
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        when (binding.chipGroup.checkedChipId) {
+            binding.chipPopular.id -> viewModel.changeCategory(POPULAR)
+            binding.chipToprated.id -> viewModel.changeCategory(TOP_RATED)
+            binding.chipUpcoming.id -> viewModel.changeCategory(UPCOMING)
+        }
+    }
+
+    companion object {
+        const val POPULAR = "popular"
+        const val TOP_RATED = "top_rated"
+        const val UPCOMING = "upcoming"
+    }
+
 }

@@ -41,8 +41,8 @@ class dashboardrecycleradapter(private val listener: OnClick) : RecyclerView.Ada
         val BASE_URL: String = "https://image.tmdb.org/t/p/original"
         val dataObj = moviesList?.results?.get(position)
         holder.moviename.text = dataObj?.title
-        holder.rating.text = dataObj?.vote_average
         holder.releaseDate.text = dataObj?.release_date
+        //holder.rating.numStars = dataObj?.vote_average
 
         Glide.with(holder.itemView.context).load(BASE_URL + dataObj?.poster_path).into(holder.binding.movieimg)
     }
