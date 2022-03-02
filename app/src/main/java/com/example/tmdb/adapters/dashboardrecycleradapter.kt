@@ -51,7 +51,6 @@ class dashboardrecycleradapter(private val listener: OnClick) : RecyclerView.Ada
         var moviename = binding.movienameText
         var releaseDate = binding.releaseDate
         var rating = binding.rating
-
     }
 }
 
