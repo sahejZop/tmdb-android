@@ -3,9 +3,11 @@ package com.example.tmdb.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.tmdb.repository.Repository
 import com.example.tmdb.data.MovieListData
-import com.example.tmdb.database.MovieDatabaseHelperImpl
+import com.example.tmdb.database.MovieEntity
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,7 +32,23 @@ class dashboardViewModel (val repository: Repository): ViewModel(){
     }
 
     fun changeMovie(string: String){
-        _currentMovie.value = string
+        viewModelScope.launch {
+            _currentMovie.postValue(string)
+            _isFav.postValue(isMovieInTable(_currentMovie.value!!)!!)
+        }
+    }
+
+    fun onButtonPress(movieclass: MovieEntity){
+        viewModelScope.launch {
+            if (!isFav.value!!){
+                repository.moviedDatabaseHelperImpl.insertMovie(movieclass)
+                _isFav.value = true
+            }
+            else{
+                repository.moviedDatabaseHelperImpl.deleteMovie(movieclass)
+                _isFav.value = false
+            }
+        }
     }
 
     fun getMovieListquery(category: String){

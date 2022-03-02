@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
 import com.example.tmdb.R
+import com.example.tmdb.databinding.MoviecardBinding
 import com.example.tmdb.data.MovieData
 import com.example.tmdb.data.MovieListData
-import com.example.tmdb.databinding.MoviecardBinding
 
 class dashboardrecycleradapter(private val listener: OnClick) : RecyclerView.Adapter<dashboardrecycleradapter.viewHolder>() {
 

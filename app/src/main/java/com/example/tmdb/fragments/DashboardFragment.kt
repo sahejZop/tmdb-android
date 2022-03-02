@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.tmdb.R
@@ -25,9 +23,6 @@ class DashboardFragment(
     lateinit var binding: DashboardBinding
     private val retrofitService = movieApiInterface.getInstance()
     private val adapter = dashboardrecycleradapter(this)
-
-    //private val _currentMovie  = MutableLiveData<String>("")
-    //val currentMovie: LiveData<String> = _currentMovie
 
     override fun onCreateView(
         inflater: LayoutInflater,

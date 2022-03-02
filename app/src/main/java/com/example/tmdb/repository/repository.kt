@@ -1,9 +1,6 @@
 package com.example.tmdb.repository
 
-import android.content.Context
 import com.example.tmdb.apiServices.movieApiInterface
-import com.example.tmdb.database.MovieDao
-import com.example.tmdb.database.MovieDatabase
 import com.example.tmdb.database.MovieDatabaseHelperImpl
 
 class Repository(

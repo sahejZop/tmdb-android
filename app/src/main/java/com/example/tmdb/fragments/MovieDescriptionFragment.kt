@@ -11,8 +11,6 @@ import com.example.tmdb.data.MovieData
 import com.example.tmdb.database.MovieEntity
 import com.example.tmdb.databinding.FragmentMovieDescriptionBinding
 import com.example.tmdb.viewmodels.dashboardViewModel
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class MovieDescriptionFragment(
     val MovieDataObj: MovieData?,
@@ -36,57 +34,18 @@ class MovieDescriptionFragment(
         context?.let { Glide.with(it).load(BASE_URL + MovieDataObj?.poster_path).into(binding.moviePoster) }
         context?.let { Glide.with(it).load(BASE_URL + MovieDataObj?.backdrop_path).into(binding.movieBackdrop) }
 
-        viewModel.currentMovie.observe(viewLifecycleOwner, Observer {
-
+        viewModel.isFav.observe(viewLifecycleOwner, Observer {
+            if (viewModel.isFav.value!!){
+                binding.favbtn.text = "unfavourite"
+            }
+            else
+                binding.favbtn.text = "favourite"
         })
 
-        GlobalScope.launch {
-            if (viewModel.isMovieInTable(MovieDataObj!!.id.toString())){
-                binding.favbtn.text = "unfavourite"
-                isFav = true
-            }
-            else{
-                binding.favbtn.text = "favourite"
-                isFav = false
-            }
-        }
-
         binding.favbtn.setOnClickListener{
-            onButtonPress(movieclass, viewModel)
-            /*
-            GlobalScope.launch {
-                if (!isFav){
-                    viewModel.repository.moviedDatabaseHelperImpl.insertMovie(movieclass)
-                    binding.favbtn.text = "unfavourite"
-                    isFav = true
-                }
-                else{
-                    viewModel.repository.moviedDatabaseHelperImpl.deleteMovie(movieclass)
-                    binding.favbtn.text = "favourite"
-                    isFav = false
-                }
-            }
-             */
+            viewModel.onButtonPress(movieclass)
         }
 
         return binding.root
     }
-
-    private fun onButtonPress(movieclass: MovieEntity, viewModel: dashboardViewModel){
-        GlobalScope.launch {
-            if (!isFav){
-                viewModel.repository.moviedDatabaseHelperImpl.insertMovie(movieclass)
-                isFav = true
-            }
-            else{
-                viewModel.repository.moviedDatabaseHelperImpl.deleteMovie(movieclass)
-                isFav = false
-            }
-        }
-        if (!isFav)
-            binding.favbtn.text = "unfavourite"
-        else
-            binding.favbtn.text = "favourite"
-    }
-
 }
