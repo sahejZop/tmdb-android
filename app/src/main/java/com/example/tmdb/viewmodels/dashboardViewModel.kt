@@ -20,8 +20,10 @@ class dashboardViewModel (val repository: Repository): ViewModel(){
     val errorMessage = MutableLiveData<String>()
     private val category = MutableLiveData<String>("popular")
 
+    private val _favMovies = MutableLiveData<List<MovieEntity>>()
+    val favMovies: LiveData<List<MovieEntity>> = _favMovies
+
     private val _currentMovie  = MutableLiveData<String>("")
-    val currentMovie: LiveData<String> = _currentMovie
 
     private val _isFav = MutableLiveData<Boolean>(false)
     val isFav: LiveData<Boolean> = _isFav
@@ -29,6 +31,12 @@ class dashboardViewModel (val repository: Repository): ViewModel(){
     fun changeCategory(string: String){
         category.value = string
         getMovieListquery(string)
+    }
+
+    fun showFavourite(){
+        viewModelScope.launch {
+            _favMovies.value = repository.moviedDatabaseHelperImpl.getMovies()
+        }
     }
 
     fun changeMovie(string: String){

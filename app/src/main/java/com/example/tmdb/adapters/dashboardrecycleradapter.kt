@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
 import com.example.tmdb.R
 import com.example.tmdb.databinding.MoviecardBinding
-import com.example.tmdb.data.MovieData
 import com.example.tmdb.data.MovieListData
+import com.example.tmdb.database.MovieEntity
 
 class dashboardrecycleradapter(private val listener: OnClick) : RecyclerView.Adapter<dashboardrecycleradapter.viewHolder>() {
 
@@ -20,7 +20,7 @@ class dashboardrecycleradapter(private val listener: OnClick) : RecyclerView.Ada
         moviesList = moviesListpar
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): dashboardrecycleradapter.viewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): viewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.moviecard, parent, false)
         binding = MoviecardBinding.bind(view)
         val viewHolderobj = viewHolder(view, binding)
@@ -32,8 +32,8 @@ class dashboardrecycleradapter(private val listener: OnClick) : RecyclerView.Ada
         return viewHolderobj
     }
 
-    override fun onBindViewHolder(holder: dashboardrecycleradapter.viewHolder, position: Int) {
-        val BASE_URL: String = "https://image.tmdb.org/t/p/original"
+    override fun onBindViewHolder(holder: viewHolder, position: Int) {
+        val BASE_URL = "https://image.tmdb.org/t/p/original"
         val dataObj = moviesList?.results?.get(position)
         holder.moviename.text = dataObj?.title
         holder.releaseDate.text = dataObj?.release_date
@@ -49,7 +49,6 @@ class dashboardrecycleradapter(private val listener: OnClick) : RecyclerView.Ada
 
     class viewHolder(view: View, val binding: MoviecardBinding): ViewHolder(view){
         var moviename = binding.movienameText
-        var movieimg = binding.movieimg
         var releaseDate = binding.releaseDate
         var rating = binding.rating
 
@@ -57,5 +56,5 @@ class dashboardrecycleradapter(private val listener: OnClick) : RecyclerView.Ada
 }
 
 interface OnClick{
-    fun onItemClicked(par: MovieData?)
+    fun onItemClicked(par: MovieEntity)
 }

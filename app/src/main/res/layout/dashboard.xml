@@ -6,6 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <HorizontalScrollView
+        android:id="@+id/horizontalscroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        >
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chip_group"
         android:layout_width="match_parent"
@@ -34,13 +40,21 @@
             android:layout_height="wrap_content"
             android:checkable="true"
             android:text="Top Rated" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_fav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="Favourites" />
     </com.google.android.material.chip.ChipGroup>
+    </HorizontalScrollView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclermovieslist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/chip_group"
+        android:layout_below="@+id/horizontalscroll"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         tools:listitem="@layout/moviecard" />
 
