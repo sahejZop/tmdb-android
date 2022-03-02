@@ -26,11 +26,6 @@ class dashboardrecycleradapter(private val listener: OnClick) : RecyclerView.Ada
         val viewHolderobj = viewHolder(view, binding)
 
         view.setOnClickListener{
-            /*
-            moviesList?.results?.get(viewHolderobj.adapterPosition)
-                ?.let { it1 -> listener.onItemClicked(it1) }
-
-             */
             listener.onItemClicked(moviesList!!.results[viewHolderobj.adapterPosition])
         }
 
@@ -42,7 +37,8 @@ class dashboardrecycleradapter(private val listener: OnClick) : RecyclerView.Ada
         val dataObj = moviesList?.results?.get(position)
         holder.moviename.text = dataObj?.title
         holder.releaseDate.text = dataObj?.release_date
-        //holder.rating.numStars = dataObj?.vote_average
+        
+        holder.rating.rating = dataObj?.vote_average?.toFloat()?.div(2) ?: 0f
 
         Glide.with(holder.itemView.context).load(BASE_URL + dataObj?.poster_path).into(holder.binding.movieimg)
     }

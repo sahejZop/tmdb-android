@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.tmdb.R
@@ -24,14 +26,15 @@ class DashboardFragment(
     private val retrofitService = movieApiInterface.getInstance()
     private val adapter = dashboardrecycleradapter(this)
 
+    //private val _currentMovie  = MutableLiveData<String>("")
+    //val currentMovie: LiveData<String> = _currentMovie
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = DashboardBinding.inflate(layoutInflater)
-
-
 
         binding.chipPopular.setOnClickListener(View.OnClickListener {
             viewModel.changeCategory(POPULAR)
@@ -44,21 +47,6 @@ class DashboardFragment(
         binding.chipUpcoming.setOnClickListener(View.OnClickListener {
             viewModel.changeCategory(UPCOMING)
         })
-        /*
-        binding.recyclermovieslist.addOnItemTouchListener(RecyclerItemClickListenr(requireContext(), binding.recyclermovieslist, object : RecyclerItemClickListenr.OnItemClickListener {
-
-            override fun onItemClick(view: View, position: Int) {
-                activity?.supportFragmentManager?.beginTransaction()?.apply {
-                    replace(R.id.fl, MovieDescriptionFragment())
-                    commit()
-                }
-            }
-            override fun onItemLongClick(view: View?, position: Int) {
-                TODO("do nothing")
-            }
-        }))
-         */
-
 
         return binding.root
     }
@@ -75,14 +63,14 @@ class DashboardFragment(
             binding.recyclermovieslist.adapter = adapter
         })
 
-        //viewModel.getMovieListquery("popular")
         viewModel.getMovieListquery("popular")
-        //viewModel.changeCategory("trending")
     }
 
     override fun onItemClicked(par: MovieData?) {
         Log.d("dash", "${par?.title}")
-        val movieDescriptionFragment = MovieDescriptionFragment(par)
+
+        val movieDescriptionFragment = MovieDescriptionFragment(par, viewModel)
+        viewModel.changeMovie(par!!.id.toString())
 
         activity?.supportFragmentManager?.beginTransaction()?.apply {
             replace(R.id.fl, movieDescriptionFragment)

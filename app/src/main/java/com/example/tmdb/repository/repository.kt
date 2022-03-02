@@ -7,8 +7,8 @@ import com.example.tmdb.database.MovieDatabase
 import com.example.tmdb.database.MovieDatabaseHelperImpl
 
 class Repository(
-    private val movieApiInterface: movieApiInterface,
-    private val moviedDatabaseHelperImpl: MovieDatabaseHelperImpl
+    val movieApiInterface: movieApiInterface,
+    val moviedDatabaseHelperImpl: MovieDatabaseHelperImpl
 ) {
 
     fun getMovieListquery(category: String) = movieApiInterface.getMovieListquery(category)

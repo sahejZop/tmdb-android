@@ -1,16 +1,16 @@
 package com.example.tmdb.viewmodels
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.tmdb.repository.Repository
 import com.example.tmdb.data.MovieListData
+import com.example.tmdb.database.MovieDatabaseHelperImpl
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class dashboardViewModel (private val repository: Repository): ViewModel(){
+class dashboardViewModel (val repository: Repository): ViewModel(){
 
     private val _movieList = MutableLiveData<MovieListData>()
     val movieList: LiveData<MovieListData> = _movieList
@@ -18,9 +18,19 @@ class dashboardViewModel (private val repository: Repository): ViewModel(){
     val errorMessage = MutableLiveData<String>()
     private val category = MutableLiveData<String>("popular")
 
+    private val _currentMovie  = MutableLiveData<String>("")
+    val currentMovie: LiveData<String> = _currentMovie
+
+    private val _isFav = MutableLiveData<Boolean>(false)
+    val isFav: LiveData<Boolean> = _isFav
+
     fun changeCategory(string: String){
         category.value = string
         getMovieListquery(string)
+    }
+
+    fun changeMovie(string: String){
+        _currentMovie.value = string
     }
 
     fun getMovieListquery(category: String){
@@ -35,7 +45,14 @@ class dashboardViewModel (private val repository: Repository): ViewModel(){
                 errorMessage.postValue(t.message)
             }
         })
+    }
 
+    suspend fun isMovieInTable(id: String): Boolean{
+        val movie = repository.moviedDatabaseHelperImpl.isMovieInTable(id)
+
+        if (movie > 0)
+            return true
+        return false
     }
 
     /*
