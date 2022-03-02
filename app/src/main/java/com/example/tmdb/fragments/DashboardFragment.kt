@@ -53,16 +53,19 @@ class DashboardFragment(
 
         binding.recyclermovieslist.setHasFixedSize(true)
         binding.recyclermovieslist.setItemViewCacheSize(20)
+        binding.recyclermovieslist.layoutManager = GridLayoutManager(activity, 2)
 
         viewModel.movieList.observe(viewLifecycleOwner) {
-            binding.recyclermovieslist.layoutManager = GridLayoutManager(activity, 2)
+            //binding.recyclermovieslist.layoutManager = GridLayoutManager(activity, 2)
             adapter.setMovieList(it)
-            binding.recyclermovieslist.adapter = adapter
+            //binding.recyclermovieslist.adapter = adapter
+            adapter.notifyDataSetChanged()
+            //binding.recyclermovieslist.adapter = adapter
         }
 
         viewModel.favMovies.observe(viewLifecycleOwner){
             val data = MovieListData(1, it, 19, 1)
-            binding.recyclermovieslist.layoutManager = GridLayoutManager(activity, 2)
+            //binding.recyclermovieslist.layoutManager = GridLayoutManager(activity, 2)
             adapter.setMovieList(data)
             binding.recyclermovieslist.adapter = adapter
         }

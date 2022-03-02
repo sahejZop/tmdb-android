@@ -23,6 +23,7 @@ class dashboardrecycleradapter(private val listener: OnClick) : RecyclerView.Ada
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): viewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.moviecard, parent, false)
         binding = MoviecardBinding.bind(view)
+
         val viewHolderobj = viewHolder(view, binding)
 
         view.setOnClickListener{

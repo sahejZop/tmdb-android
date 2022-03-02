@@ -67,7 +67,6 @@ class dashboardViewModel (val repository: Repository): ViewModel(){
             }
 
             override fun onFailure(call: Call<MovieListData>, t: Throwable) {
-                //TODO("Not yet implemented")
                 errorMessage.postValue(t.message)
             }
         })
@@ -80,52 +79,4 @@ class dashboardViewModel (val repository: Repository): ViewModel(){
             return true
         return false
     }
-
-    /*
-    fun getMovieList(language: String, page: Int){
-        val response = repository.getMovieList(language, page)
-        response.enqueue(object : Callback<MovieListData>{
-            override fun onResponse(call: Call<MovieListData>, response: Response<MovieListData>) {
-                _movieList.postValue(response.body())
-            }
-
-            override fun onFailure(call: Call<MovieListData>, t: Throwable) {
-                //TODO("Not yet implemented")
-                errorMessage.postValue(t.message)
-            }
-        })
-
-    }
-    fun getTopRatedList(language: String, page: Int){
-        val response = repository.getTopRatedList(language, page)
-        response.enqueue(object : Callback<MovieListData>{
-            override fun onResponse(call: Call<MovieListData>, response: Response<MovieListData>) {
-                _movieList.postValue(response.body())
-            }
-
-            override fun onFailure(call: Call<MovieListData>, t: Throwable) {
-                //TODO("Not yet implemented")
-                errorMessage.postValue(t.message)
-            }
-        })
-
-    }
-
-    fun getUpcomingMovies(language: String, page: Int){
-        val response = repository.getUpcomingMovies(language, page)
-        response.enqueue(object : Callback<MovieListData>{
-            override fun onResponse(call: Call<MovieListData>, response: Response<MovieListData>) {
-                _movieList.postValue(response.body())
-            }
-
-            override fun onFailure(call: Call<MovieListData>, t: Throwable) {
-                //TODO("Not yet implemented")
-                errorMessage.postValue(t.message)
-            }
-        })
-
-    }
-
-     */
-
 }
