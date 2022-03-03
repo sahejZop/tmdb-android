@@ -1,5 +1,6 @@
 package com.example.tmdb.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -18,6 +19,7 @@ class MovieDescriptionFragment(
     private lateinit var binding: FragmentMovieDescriptionBinding
     val BASE_URL: String = "https://image.tmdb.org/t/p/original"
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -27,6 +29,7 @@ class MovieDescriptionFragment(
         binding.movieTitle.text = MovieDataObj.title
         binding.movieOverview.text = MovieDataObj.overview
         binding.movieReleaseDate.text = MovieDataObj.release_date
+
         context?.let { Glide.with(it).load(BASE_URL + MovieDataObj.poster_path).into(binding.moviePoster) }
         context?.let { Glide.with(it).load(BASE_URL + MovieDataObj.backdrop_path).into(binding.movieBackdrop) }
 
