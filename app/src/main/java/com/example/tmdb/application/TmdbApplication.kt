@@ -6,12 +6,8 @@ import com.example.tmdb.dagger.AppModule
 import com.example.tmdb.dagger.DaggerAppComponent
 
 class TmdbApplication : Application() {
-    lateinit var tmdbComponent: AppComponent
 
-    override fun onCreate() {
-        super.onCreate()
-        tmdbComponent = initDagger(this)
-    }
+    var tmdbComponent = initDagger(this)
 
     private fun initDagger(app: TmdbApplication): AppComponent =
         DaggerAppComponent.builder()

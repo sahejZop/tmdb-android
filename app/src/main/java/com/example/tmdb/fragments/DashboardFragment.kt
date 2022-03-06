@@ -1,7 +1,6 @@
 package com.example.tmdb.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,29 +19,38 @@ class DashboardFragment(
 ) : Fragment(), OnClick {
 
     private lateinit var binding: DashboardBinding
-    private val adapter = dashboardrecycleradapter(this)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.getMovieListquery(POPULAR)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         binding = DashboardBinding.inflate(layoutInflater)
 
         binding.chipPopular.setOnClickListener{
             viewModel.changeCategory(POPULAR)
+            viewModel.onFav = false
         }
 
         binding.chipToprated.setOnClickListener{
             viewModel.changeCategory(TOP_RATED)
+            viewModel.onFav = false
         }
 
         binding.chipUpcoming.setOnClickListener {
             viewModel.changeCategory(UPCOMING)
+            viewModel.onFav = false
         }
 
         binding.chipFav.setOnClickListener{
             viewModel.showFavourite()
+            viewModel.onFav = true
         }
 
         return binding.root
@@ -55,41 +63,45 @@ class DashboardFragment(
         binding.recyclermovieslist.setItemViewCacheSize(20)
         binding.recyclermovieslist.layoutManager = GridLayoutManager(activity, 2)
 
+        val adapter = dashboardrecycleradapter(this)
+
         viewModel.movieList.observe(viewLifecycleOwner) {
             adapter.setMovieList(it)
             binding.recyclermovieslist.adapter = adapter
         }
 
         viewModel.favMovies.observe(viewLifecycleOwner){
-            val data = MovieListData(1, it, 19, 1)
-            adapter.setMovieList(data)
-            binding.recyclermovieslist.adapter = adapter
+            if(viewModel.onFav)
+            {
+                adapter.setMovieList(MovieListData(1, it, it.size, 1))
+                binding.recyclermovieslist.adapter = adapter
+            }
         }
-
-        viewModel.getMovieListquery("popular")
     }
 
     override fun onItemClicked(par: MovieEntity) {
-        Log.d("dash", par.title)
 
         val movieDescriptionFragment = MovieDescriptionFragment(par, viewModel)
         viewModel.changeMovie(par.id.toString())
 
         activity?.supportFragmentManager?.beginTransaction()?.apply {
             replace(R.id.fl, movieDescriptionFragment)
-            addToBackStack("dashboard")
+            addToBackStack(null)
             commit()
         }
     }
 
+    /*
     override fun onResume() {
         super.onResume()
         when (binding.chipGroup.checkedChipId) {
             binding.chipPopular.id -> viewModel.changeCategory(POPULAR)
             binding.chipToprated.id -> viewModel.changeCategory(TOP_RATED)
+            binding.chipFav.id -> viewModel.showFavourite()
             binding.chipUpcoming.id -> viewModel.changeCategory(UPCOMING)
         }
     }
+     */
 
     companion object {
         const val POPULAR = "popular"

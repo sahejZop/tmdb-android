@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.example.tmdb.R
 import com.example.tmdb.database.MovieEntity
 import com.example.tmdb.databinding.FragmentMovieDescriptionBinding
 import com.example.tmdb.viewmodels.dashboardViewModel
@@ -41,7 +42,16 @@ class MovieDescriptionFragment(
         }
 
         binding.favbtn.setOnClickListener{
-            viewModel.onButtonPress(MovieDataObj)
+            viewModel.onFavButtonPress(MovieDataObj)
+        }
+
+        binding.testbtn.setOnClickListener{
+            val dash = DashboardFragment(viewModel)
+
+            requireActivity().supportFragmentManager.beginTransaction().apply {
+                replace(R.id.fl, dash)
+                commit()
+            }
         }
 
         return binding.root

@@ -2,7 +2,6 @@ package com.example.tmdb
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.tmdb.apiServices.MovieApiInstance
 import androidx.lifecycle.ViewModelProvider
 import com.example.tmdb.apiServices.movieApiInterface
 import com.example.tmdb.application.TmdbApplication
@@ -16,18 +15,19 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var repository: Repository
+    private lateinit var repository: Repository
     @Inject lateinit var movieApiInterfaceObj: movieApiInterface
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //val tmdbAppObj = TmdbApplication()
-        //tmdbAppObj.tmdbComponent.inject(this)
+        val tmdbAppObj = TmdbApplication()
+        tmdbAppObj.tmdbComponent.inject(this)
+
         //(application as TmdbApplication).tmdbComponent.inject(this)
 
-        val movieApiInterfaceObj = movieApiInterface.getInstance()
+        //val movieApiInterfaceObj = movieApiInterface.getInstance()
         repository = Repository(movieApiInterfaceObj,
             moviedDatabaseHelperImpl = MovieDatabaseHelperImpl(
             MovieDatabase.DatabaseBuilder.getInstance(applicationContext).movieDao()
@@ -49,4 +49,5 @@ class MainActivity : AppCompatActivity() {
             commit()
         }
     }
+
 }
