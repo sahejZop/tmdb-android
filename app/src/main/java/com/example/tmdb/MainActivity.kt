@@ -1,5 +1,6 @@
 package com.example.tmdb
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
@@ -17,6 +18,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var repository: Repository
     @Inject lateinit var movieApiInterfaceObj: movieApiInterface
+    @Inject lateinit var movieDatabaseHelperImpl: MovieDatabaseHelperImpl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
