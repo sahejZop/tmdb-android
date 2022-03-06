@@ -1,5 +1,6 @@
 package com.example.tmdb.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ class dashboardrecycleradapter(private val listener: OnClick) : RecyclerView.Ada
     var moviesList: MovieListData? = null
 
     fun setMovieList(moviesListpar: MovieListData){
+        Log.d("adap", moviesListpar.total_results.toString())
         moviesList = moviesListpar
     }
 

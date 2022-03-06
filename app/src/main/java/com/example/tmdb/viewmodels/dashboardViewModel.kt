@@ -14,6 +14,8 @@ import retrofit2.Response
 
 class dashboardViewModel (val repository: Repository): ViewModel(){
 
+    var onFav: Boolean = false
+
     private val _movieList = MutableLiveData<MovieListData>()
     val movieList: LiveData<MovieListData> = _movieList
 
@@ -23,30 +25,12 @@ class dashboardViewModel (val repository: Repository): ViewModel(){
     private val _favMovies = MutableLiveData<List<MovieEntity>>()
     val favMovies: LiveData<List<MovieEntity>> = _favMovies
 
-    private val _currentMovie  = MutableLiveData<String>("")
+    private val _currentMovie  = MutableLiveData<String>()
 
     private val _isFav = MutableLiveData<Boolean>(false)
     val isFav: LiveData<Boolean> = _isFav
 
-    fun changeCategory(string: String){
-        category.value = string
-        getMovieListquery(string)
-    }
-
-    fun showFavourite(){
-        viewModelScope.launch {
-            _favMovies.value = repository.moviedDatabaseHelperImpl.getMovies()
-        }
-    }
-
-    fun changeMovie(string: String){
-        viewModelScope.launch {
-            _currentMovie.postValue(string)
-            _isFav.postValue(isMovieInTable(_currentMovie.value!!)!!)
-        }
-    }
-
-    fun onButtonPress(movieclass: MovieEntity){
+    fun onFavButtonPress(movieclass: MovieEntity){
         viewModelScope.launch {
             if (!isFav.value!!){
                 repository.moviedDatabaseHelperImpl.insertMovie(movieclass)
@@ -58,6 +42,30 @@ class dashboardViewModel (val repository: Repository): ViewModel(){
             }
         }
     }
+
+    fun showFavourite(){
+        lateinit var data: List<MovieEntity>
+        viewModelScope.launch {
+            data = repository.moviedDatabaseHelperImpl.getMovies()
+            _favMovies.postValue(data)
+            //_favMovies.postValue(repository.moviedDatabaseHelperImpl.getMovies())
+        }
+    }
+
+    fun changeMovie(string: String){
+        viewModelScope.launch {
+            //_currentMovie.postValue(string)
+            _currentMovie.value = string
+            //_isFav.postValue(isMovieInTable(_currentMovie.value!!)!!)
+            _isFav.value = isMovieInTable(_currentMovie.value!!)!!
+        }
+    }
+
+    fun changeCategory(string: String){
+        category.value = string
+        getMovieListquery(string)
+    }
+
 
     fun getMovieListquery(category: String){
         val response = repository.getMovieListquery(category)
