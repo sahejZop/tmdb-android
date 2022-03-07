@@ -33,11 +33,11 @@ class dashboardViewModel (val repository: Repository): ViewModel(){
     fun onFavButtonPress(movieclass: MovieEntity){
         viewModelScope.launch {
             if (!isFav.value!!){
-                repository.moviedDatabaseHelperImpl.insertMovie(movieclass)
+                repository.movieDatabaseHelperImpl.insertMovie(movieclass)
                 _isFav.value = true
             }
             else{
-                repository.moviedDatabaseHelperImpl.deleteMovie(movieclass)
+                repository.movieDatabaseHelperImpl.deleteMovie(movieclass)
                 _isFav.value = false
             }
         }
@@ -46,7 +46,7 @@ class dashboardViewModel (val repository: Repository): ViewModel(){
     fun showFavourite(){
         lateinit var data: List<MovieEntity>
         viewModelScope.launch {
-            data = repository.moviedDatabaseHelperImpl.getMovies()
+            data = repository.movieDatabaseHelperImpl.getMovies()
             _favMovies.postValue(data)
             //_favMovies.postValue(repository.moviedDatabaseHelperImpl.getMovies())
         }
@@ -81,7 +81,7 @@ class dashboardViewModel (val repository: Repository): ViewModel(){
     }
 
     suspend fun isMovieInTable(id: String): Boolean{
-        val movie = repository.moviedDatabaseHelperImpl.isMovieInTable(id)
+        val movie = repository.movieDatabaseHelperImpl.isMovieInTable(id)
 
         if (movie > 0)
             return true

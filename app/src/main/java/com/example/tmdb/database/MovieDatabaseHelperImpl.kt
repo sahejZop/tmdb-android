@@ -1,8 +1,12 @@
 package com.example.tmdb.database
 
+import javax.inject.Inject
+
 class MovieDatabaseHelperImpl(
     private val movieDao: MovieDao
 ): MovieDatabaseHelper {
+
+    //@Inject lateinit var movieDaoInject: MovieDao
 
     override suspend fun getMovie(movieId: String): MovieEntity = movieDao.getMovie(movieId)
 
