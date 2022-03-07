@@ -8,8 +8,8 @@ import java.lang.IllegalArgumentException
 class MyViewModelFactory(private val repository: Repository) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return if (modelClass.isAssignableFrom(dashboardViewModel::class.java)) {
-            dashboardViewModel(this.repository) as T
+        return if (modelClass.isAssignableFrom(DashboardViewModel::class.java)) {
+            DashboardViewModel(this.repository) as T
         } else {
             throw IllegalArgumentException("viewmodel not found")
         }

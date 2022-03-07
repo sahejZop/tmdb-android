@@ -8,13 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.example.tmdb.R
-import com.example.tmdb.database.MovieEntity
+import com.example.tmdb.data.MovieEntity
 import com.example.tmdb.databinding.FragmentMovieDescriptionBinding
-import com.example.tmdb.viewmodels.dashboardViewModel
+import com.example.tmdb.viewmodels.DashboardViewModel
 
 class MovieDescriptionFragment(
     private val MovieDataObj: MovieEntity,
-    private val viewModel: dashboardViewModel
+    private val viewModel: DashboardViewModel
     ) : Fragment() {
 
     private lateinit var binding: FragmentMovieDescriptionBinding

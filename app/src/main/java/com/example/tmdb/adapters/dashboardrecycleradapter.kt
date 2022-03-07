@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.example.tmdb.R
 import com.example.tmdb.databinding.MoviecardBinding
 import com.example.tmdb.data.MovieListData
-import com.example.tmdb.database.MovieEntity
+import com.example.tmdb.data.MovieEntity
 
 class dashboardrecycleradapter(private val listener: OnClick) : RecyclerView.Adapter<dashboardrecycleradapter.viewHolder>() {
 

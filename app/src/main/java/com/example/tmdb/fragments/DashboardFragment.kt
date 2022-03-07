@@ -10,12 +10,12 @@ import com.example.tmdb.R
 import com.example.tmdb.adapters.OnClick
 import com.example.tmdb.adapters.dashboardrecycleradapter
 import com.example.tmdb.data.MovieListData
-import com.example.tmdb.database.MovieEntity
+import com.example.tmdb.data.MovieEntity
 import com.example.tmdb.databinding.DashboardBinding
-import com.example.tmdb.viewmodels.dashboardViewModel
+import com.example.tmdb.viewmodels.DashboardViewModel
 
 class DashboardFragment(
-    private val viewModel: dashboardViewModel
+    private val viewModel: DashboardViewModel
 ) : Fragment(), OnClick {
 
     private lateinit var binding: DashboardBinding
@@ -66,8 +66,11 @@ class DashboardFragment(
         val adapter = dashboardrecycleradapter(this)
 
         viewModel.movieList.observe(viewLifecycleOwner) {
-            adapter.setMovieList(it)
-            binding.recyclermovieslist.adapter = adapter
+            if (it != null)
+            {
+                adapter.setMovieList(it)
+                binding.recyclermovieslist.adapter = adapter
+            }
         }
 
         viewModel.favMovies.observe(viewLifecycleOwner){
