@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var repository: Repository
     @Inject lateinit var movieApiInterfaceObj: movieApiInterface
-    @Inject lateinit var movieDatabaseHelperImpl: MovieDatabaseHelperImpl
+    //@Inject lateinit var movieDatabaseHelperImpl: MovieDatabaseHelperImpl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
