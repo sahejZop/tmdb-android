@@ -17,8 +17,11 @@
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="@+id/backdrop_guideline"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            android:contentDescription="@string/backdrop" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/movie_poster_card"
@@ -35,7 +38,8 @@
                 android:id="@+id/movie_poster"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitXY"
+                android:contentDescription="@string/poster" />
 
         </androidx.cardview.widget.CardView>
 
@@ -95,25 +99,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/movie_poster_title_barrier" />
 
-        <Button
+        <ImageButton
             android:id="@+id/favbtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="sample"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@android:color/transparent"
+            android:text="@string/sample"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:layout_editor_absoluteX="151dp"
-            tools:layout_editor_absoluteY="582dp" />
-
-        <Button
-            android:id="@+id/testbtn"
-            android:text="dash"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-
             />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

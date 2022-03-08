@@ -10,16 +10,16 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val DashboardViewModel: DashboardViewModel by viewModels()
+    private val dashboardViewModel: DashboardViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val firstfrag = DashboardFragment(viewModel = DashboardViewModel)
+        val firstFragment = DashboardFragment(viewModel = dashboardViewModel)
 
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fl, firstfrag)
+            replace(R.id.fl, firstFragment)
             commit()
         }
     }

@@ -36,22 +36,18 @@ class MovieDescriptionFragment(
 
         viewModel.isFav.observe(viewLifecycleOwner) {
             if (viewModel.isFav.value!!) {
-                binding.favbtn.text = "unfavourite"
-            } else
-                binding.favbtn.text = "favourite"
+                binding.favbtn.setImageResource(
+                        R.drawable.ic_baseline_favorite_24
+                )
+            } else{
+                binding.favbtn.setImageResource(
+                        R.drawable.ic_baseline_favorite_25
+                    )
+            }
         }
 
         binding.favbtn.setOnClickListener{
             viewModel.onFavButtonPress(MovieDataObj)
-        }
-
-        binding.testbtn.setOnClickListener{
-            val dash = DashboardFragment(viewModel)
-
-            requireActivity().supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fl, dash)
-                commit()
-            }
         }
 
         return binding.root

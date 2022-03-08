@@ -33,8 +33,8 @@ class DashboardViewModel @Inject constructor(
 
     private val _currentMovie  = MutableLiveData<String>()
 
-    private val _isFav = MutableLiveData<Boolean>(false)
-    val isFav: LiveData<Boolean> = _isFav
+    private val _isFav = MutableLiveData<Boolean?>(false)
+    val isFav: LiveData<Boolean?> = _isFav
 
     fun onFavButtonPress(movieclass: MovieEntity){
         viewModelScope.launch {
@@ -50,10 +50,8 @@ class DashboardViewModel @Inject constructor(
     }
 
     fun showFavourite(){
-        lateinit var data: List<MovieEntity>
         viewModelScope.launch {
-            data = repository.getMovies()
-            _favMovies.postValue(data)
+            _favMovies.postValue(repository.getMovies())
             //_favMovies.postValue(repository.moviedDatabaseHelperImpl.getMovies())
         }
     }
@@ -63,18 +61,18 @@ class DashboardViewModel @Inject constructor(
             //_currentMovie.postValue(string)
             _currentMovie.value = string
             //_isFav.postValue(isMovieInTable(_currentMovie.value!!)!!)
-            _isFav.value = isMovieInTable(_currentMovie.value!!)!!
+            _isFav.value = isMovieInTable(_currentMovie.value!!)
         }
     }
 
     fun changeCategory(string: String){
         category.value = string
-        getMovieListquery(string)
+        getMovieListQuery(string)
     }
 
 
-    fun getMovieListquery(category: String){
-        val response = repository.getMovieListquery(category)
+    fun getMovieListQuery(category: String){
+        val response = repository.getMovieListQuery(category)
         response.enqueue(object : Callback<MovieListData>{
             override fun onResponse(call: Call<MovieListData>, response: Response<MovieListData>) {
                 _movieList.postValue(response.body())
@@ -87,7 +85,7 @@ class DashboardViewModel @Inject constructor(
         })
     }
 
-    suspend fun isMovieInTable(id: String): Boolean{
+    private suspend fun isMovieInTable(id: String): Boolean{
         val movie = repository.isMovieInTable(id)
 
         if (movie > 0)

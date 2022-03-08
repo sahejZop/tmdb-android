@@ -11,7 +11,7 @@ class Repository
     private val movieDao: MovieDao
 ) {
 
-    fun getMovieListquery(category: String) = movieApiInterface.getMovieListquery(category)
+    fun getMovieListQuery(category: String) = movieApiInterface.getMovieListquery(category)
     suspend fun isMovieInTable(id: String) = movieDao.isMovieInTable(id)
     suspend fun getMovies(): List<MovieEntity> = movieDao.getMovies()
     suspend fun deleteMovie(movieclass: MovieEntity) = movieDao.deleteMovie(movieclass)
