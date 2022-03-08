@@ -1,22 +1,19 @@
 package com.example.tmdb.repository
 
-import com.example.tmdb.apiServices.movieApiInterface
-import com.example.tmdb.data.MovieEntity
-import com.example.tmdb.database.MovieDao
+import com.example.tmdb.apiServices.MovieApiInterface
+import com.example.tmdb.models.MovieEntity
+import com.example.tmdb.models.database.MovieDao
 import javax.inject.Inject
 
 class Repository
-    @Inject constructor(
-    private val movieApiInterface: movieApiInterface,
+@Inject constructor(
+    private val movieApiInterface: MovieApiInterface,
     private val movieDao: MovieDao
 ) {
 
-    fun getMovieListQuery(category: String) = movieApiInterface.getMovieListquery(category)
+    fun getMovieListQuery(category: String, page: Int) = movieApiInterface.getMovieListQuery(category, page)
     suspend fun isMovieInTable(id: String) = movieDao.isMovieInTable(id)
     suspend fun getMovies(): List<MovieEntity> = movieDao.getMovies()
-    suspend fun deleteMovie(movieclass: MovieEntity) = movieDao.deleteMovie(movieclass)
-    suspend fun insertMovie(movieclass: MovieEntity) = movieDao.insertMovie(movieclass)
-
-    }
-
-
+    suspend fun deleteMovie(movieClass: MovieEntity) = movieDao.deleteMovie(movieClass)
+    suspend fun insertMovie(movieClass: MovieEntity) = movieDao.insertMovie(movieClass)
+}

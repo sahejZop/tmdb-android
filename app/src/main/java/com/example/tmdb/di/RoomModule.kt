@@ -2,7 +2,7 @@ package com.example.tmdb.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.tmdb.database.MovieDatabase
+import com.example.tmdb.models.database.MovieDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

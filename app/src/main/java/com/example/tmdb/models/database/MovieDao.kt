@@ -1,7 +1,7 @@
-package com.example.tmdb.database
+package com.example.tmdb.models.database
 
-import androidx.room.*
-import com.example.tmdb.data.MovieEntity
+import androidx.room.* // ktlint-disable no-wildcard-imports
+import com.example.tmdb.models.MovieEntity
 
 @Dao
 interface MovieDao {

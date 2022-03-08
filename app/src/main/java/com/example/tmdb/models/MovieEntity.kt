@@ -1,4 +1,4 @@
-package com.example.tmdb.data
+package com.example.tmdb.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

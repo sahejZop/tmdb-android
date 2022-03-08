@@ -1,17 +1,17 @@
-package com.example.tmdb.data
+package com.example.tmdb.models
 
 import com.google.gson.annotations.SerializedName
 
-class MovieListData (
+class MovieListData(
     @SerializedName("page")
-    val page: Int,
+    var page: Int,
 
     @SerializedName("results")
-    val results: List<MovieEntity>,
+    var results: MutableList<MovieEntity>,
 
     @SerializedName("total_results")
-    val total_results: Int,
+    var total_results: Int,
 
     @SerializedName("total_pages")
-    val total_pages: Int
+    var total_pages: Int
 )
