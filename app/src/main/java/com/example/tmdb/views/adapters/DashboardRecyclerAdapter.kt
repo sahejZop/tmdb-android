@@ -1,5 +1,6 @@
-package com.example.tmdb.adapters
+package com.example.tmdb.views.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,25 +8,26 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
 import com.example.tmdb.R
-import com.example.tmdb.databinding.MoviecardBinding
+import com.example.tmdb.databinding.MovieCardBinding
 import com.example.tmdb.models.MovieEntity
 import com.example.tmdb.models.MovieListData
 
-class DashboardRecyclerAdapter(private val listener: OnClick) : RecyclerView.Adapter<DashboardRecyclerAdapter.viewHolder>() {
+class DashboardRecyclerAdapter(private val listener: OnClick) : RecyclerView.Adapter<DashboardRecyclerAdapter.DashViewHolder>() {
 
-    lateinit var binding: MoviecardBinding
-    var moviesList: MovieListData? = null
+    private lateinit var binding: MovieCardBinding
+    private var moviesList: MovieListData? = null
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setMovieList(moviesListPar: MovieListData) {
         moviesList = moviesListPar
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): viewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.moviecard, parent, false)
-        binding = MoviecardBinding.bind(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DashViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.movie_card, parent, false)
+        binding = MovieCardBinding.bind(view)
 
-        val viewHolderObject = viewHolder(view, binding)
+        val viewHolderObject = DashViewHolder(view, binding)
 
         view.setOnClickListener {
             listener.onItemClicked(moviesList!!.results[viewHolderObject.adapterPosition])
@@ -34,28 +36,28 @@ class DashboardRecyclerAdapter(private val listener: OnClick) : RecyclerView.Ada
         return viewHolderObject
     }
 
-    override fun onBindViewHolder(holder: viewHolder, position: Int) {
+    override fun onBindViewHolder(holder: DashViewHolder, position: Int) {
         val baseUrl = "https://image.tmdb.org/t/p/original"
         val dataObj = moviesList?.results?.get(position)
 
-        holder.moviename.text = dataObj?.title
+        holder.movieName.text = dataObj?.title
         holder.releaseDate.text = dataObj?.release_date
         holder.rating.rating = dataObj?.vote_average?.toFloat()?.div(2) ?: 0f
 
-        Glide.with(holder.itemView.context).load(baseUrl + dataObj?.poster_path).into(holder.binding.movieimg)
+        Glide.with(holder.itemView.context).load(baseUrl + dataObj?.poster_path).into(holder.binding.movieImg)
     }
 
     override fun getItemCount(): Int {
         return moviesList?.results?.size ?: 0
     }
 
-    class viewHolder(view: View, val binding: MoviecardBinding) : ViewHolder(view) {
-        var moviename = binding.movienameText
+    class DashViewHolder(view: View, val binding: MovieCardBinding) : ViewHolder(view) {
+        var movieName = binding.movieNameText
         var releaseDate = binding.releaseDate
         var rating = binding.rating
     }
 }
 
 interface OnClick {
-    fun onItemClicked(par: MovieEntity)
+    fun onItemClicked(movieEntity: MovieEntity)
 }

@@ -8,10 +8,4 @@ class MovieListData(
 
     @SerializedName("results")
     var results: MutableList<MovieEntity>,
-
-    @SerializedName("total_results")
-    var total_results: Int,
-
-    @SerializedName("total_pages")
-    var total_pages: Int
 )

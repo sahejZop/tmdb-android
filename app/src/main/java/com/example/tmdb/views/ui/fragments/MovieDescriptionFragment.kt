@@ -18,7 +18,7 @@ class MovieDescriptionFragment(
 ) : Fragment() {
 
     private lateinit var binding: FragmentMovieDescriptionBinding
-    val BASE_URL: String = "https://image.tmdb.org/t/p/original"
+    val baseUrl: String = "https://image.tmdb.org/t/p/original"
 
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
@@ -32,22 +32,22 @@ class MovieDescriptionFragment(
         binding.movieOverview.text = MovieDataObj.overview
         binding.movieReleaseDate.text = MovieDataObj.release_date
 
-        context?.let { Glide.with(it).load(BASE_URL + MovieDataObj.poster_path).into(binding.moviePoster) }
-        context?.let { Glide.with(it).load(BASE_URL + MovieDataObj.backdrop_path).into(binding.movieBackdrop) }
+        context?.let { Glide.with(it).load(baseUrl + MovieDataObj.poster_path).into(binding.moviePoster) }
+        context?.let { Glide.with(it).load(baseUrl + MovieDataObj.backdrop_path).into(binding.movieBackdrop) }
 
         viewModel.isFav.observe(viewLifecycleOwner) {
             if (viewModel.isFav.value!!) {
-                binding.favbtn.setImageResource(
+                binding.favBtn.setImageResource(
                     R.drawable.ic_baseline_favorite_24
                 )
             } else {
-                binding.favbtn.setImageResource(
+                binding.favBtn.setImageResource(
                     R.drawable.ic_baseline_favorite_25
                 )
             }
         }
 
-        binding.favbtn.setOnClickListener {
+        binding.favBtn.setOnClickListener {
             viewModel.onFavButtonPress(MovieDataObj)
         }
 

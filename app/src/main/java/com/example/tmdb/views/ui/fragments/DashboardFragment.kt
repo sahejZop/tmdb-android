@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tmdb.R
-import com.example.tmdb.adapters.DashboardRecyclerAdapter
-import com.example.tmdb.adapters.OnClick
+import com.example.tmdb.views.adapters.DashboardRecyclerAdapter
+import com.example.tmdb.views.adapters.OnClick
 import com.example.tmdb.databinding.DashboardBinding
 import com.example.tmdb.models.MovieEntity
 import com.example.tmdb.models.MovieListData
@@ -40,7 +40,7 @@ class DashboardFragment(
             viewModel.changeCategory(POPULAR)
         }
 
-        binding.chipToprated.setOnClickListener {
+        binding.chipTopRated.setOnClickListener {
             viewModel.changeCategory(TOP_RATED)
         }
 
@@ -59,13 +59,13 @@ class DashboardFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.recyclermovieslist.apply {
+        binding.recyclerMoviesList.apply {
             layoutManager = GridLayoutManager(activity, 2)
             addOnScrollListener(this@DashboardFragment.scrollListener)
         }
 
         val adapter = DashboardRecyclerAdapter(this)
-        binding.recyclermovieslist.adapter = adapter
+        binding.recyclerMoviesList.adapter = adapter
 
         viewModel.movieList.observe(viewLifecycleOwner) {
             adapter.setMovieList(it)
@@ -73,7 +73,7 @@ class DashboardFragment(
 
         viewModel.favMovies.observe(viewLifecycleOwner) {
             if (viewModel.currentChip == FAVOURITE) {
-                adapter.setMovieList(MovieListData(1, it as MutableList<MovieEntity>, it.size, 1))
+                adapter.setMovieList(MovieListData(1, it as MutableList<MovieEntity>))
             }
         }
     }

@@ -1,6 +1,6 @@
 package com.example.tmdb.models.database
 
-import androidx.room.* // ktlint-disable no-wildcard-imports
+import androidx.room.*
 import com.example.tmdb.models.MovieEntity
 
 @Dao

@@ -31,18 +31,18 @@ class DashboardViewModel @Inject constructor(
     private val _favMovies = MutableLiveData<List<MovieEntity>>()
     val favMovies: LiveData<List<MovieEntity>> = _favMovies
 
-    private val _isFav = MutableLiveData<Boolean?>(false)
+    private val _isFav = MutableLiveData(false)
     val isFav: LiveData<Boolean?> = _isFav
 
     var movieListData: MovieListData? = null
 
-    fun onFavButtonPress(movieclass: MovieEntity) {
+    fun onFavButtonPress(movieEntity: MovieEntity) {
         viewModelScope.launch {
             if (!isFav.value!!) {
-                repository.insertMovie(movieclass)
+                repository.insertMovie(movieEntity)
                 _isFav.value = true
             } else {
-                repository.deleteMovie(movieclass)
+                repository.deleteMovie(movieEntity)
                 _isFav.value = false
             }
         }
