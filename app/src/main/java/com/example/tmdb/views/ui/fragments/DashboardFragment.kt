@@ -78,9 +78,9 @@ class DashboardFragment(
         }
     }
 
-    override fun onItemClicked(par: MovieEntity) {
-        val movieDescriptionFragment = MovieDescriptionFragment(par, viewModel)
-        viewModel.changeMovie(par.id.toString())
+    override fun onItemClicked(movieEntity: MovieEntity) {
+        val movieDescriptionFragment = MovieDescriptionFragment(movieEntity, viewModel)
+        viewModel.changeMovie(movieEntity.id.toString())
 
         activity?.supportFragmentManager?.beginTransaction()?.apply {
             replace(R.id.fl, movieDescriptionFragment)

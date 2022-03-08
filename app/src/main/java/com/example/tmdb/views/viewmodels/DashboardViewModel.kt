@@ -1,6 +1,5 @@
 package com.example.tmdb.views.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -28,17 +27,14 @@ class DashboardViewModel @Inject constructor(
     val movieList: LiveData<MovieListData> = _movieList
 
     val errorMessage = MutableLiveData<String>()
-    private val category = MutableLiveData<String>("popular")
 
     private val _favMovies = MutableLiveData<List<MovieEntity>>()
     val favMovies: LiveData<List<MovieEntity>> = _favMovies
 
-    private val _currentMovie = MutableLiveData<String>()
-
     private val _isFav = MutableLiveData<Boolean?>(false)
     val isFav: LiveData<Boolean?> = _isFav
 
-    var oldList: MovieListData? = null
+    var movieListData: MovieListData? = null
 
     fun onFavButtonPress(movieclass: MovieEntity) {
         viewModelScope.launch {
@@ -58,37 +54,33 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
-    fun changeMovie(string: String) {
+    fun changeMovie(movieId: String) {
         viewModelScope.launch {
-            _currentMovie.value = string
-            _isFav.value = isMovieInTable(_currentMovie.value!!)
+            _isFav.value = isMovieInTable(movieId)
         }
     }
 
     fun changeCategory(chipCategory: String) {
-        category.value = chipCategory
-        oldList = null
+        movieListData = null
         currentPage = 1
         currentChip = chipCategory
         getMovieListQuery()
     }
 
     fun getMovieListQuery() {
-        val response = repository.getMovieListQuery(category.value.toString(), currentPage)
+        val response = repository.getMovieListQuery(currentChip, currentPage)
         response.enqueue(object : Callback<MovieListData> {
             override fun onResponse(call: Call<MovieListData>, response: Response<MovieListData>) {
-                if (oldList == null) {
-                    oldList = response.body()
+                if (movieListData == null) {
+                    movieListData = response.body()
                 } else {
-                    oldList!!.results.addAll(response.body()!!.results)
-                    oldList!!.apply {
+                    movieListData!!.apply {
+                        results.addAll(response.body()!!.results)
                         page++
                     }
                 }
-                Log.d("vm", response.body()!!.results.toString())
-                Log.d("vm", oldList!!.results.size.toString())
                 currentPage++
-                _movieList.postValue(oldList)
+                _movieList.postValue(movieListData)
             }
 
             override fun onFailure(call: Call<MovieListData>, t: Throwable) {
