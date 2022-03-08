@@ -37,22 +37,4 @@ interface movieApiInterface {
     ): Call<MovieListData>
 
      */
-
-    companion object{
-        var retroService: movieApiInterface? = null
-
-        fun getInstance(): movieApiInterface{
-            if (retroService == null){
-                val retrofit = Retrofit.Builder()
-                    //.baseUrl("https://howtodoandroid.com")
-                    //.baseUrl("https://api.themoviedb.org/")
-                    //.baseUrl("https://jsonplaceholder.typicode.com")
-                    .baseUrl("https://api.themoviedb.org/3/")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
-                retroService = retrofit.create(movieApiInterface::class.java)
-            }
-            return retroService!!
-        }
-    }
 }

@@ -1,18 +1,24 @@
 package com.example.tmdb.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tmdb.repository.Repository
 import com.example.tmdb.data.MovieListData
-import com.example.tmdb.database.MovieEntity
+import com.example.tmdb.data.MovieEntity
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class dashboardViewModel (val repository: Repository): ViewModel(){
+@HiltViewModel
+class DashboardViewModel @Inject constructor(
+    private val repository: Repository)
+    : ViewModel(){
 
     var onFav: Boolean = false
 
@@ -27,27 +33,25 @@ class dashboardViewModel (val repository: Repository): ViewModel(){
 
     private val _currentMovie  = MutableLiveData<String>()
 
-    private val _isFav = MutableLiveData<Boolean>(false)
-    val isFav: LiveData<Boolean> = _isFav
+    private val _isFav = MutableLiveData<Boolean?>(false)
+    val isFav: LiveData<Boolean?> = _isFav
 
     fun onFavButtonPress(movieclass: MovieEntity){
         viewModelScope.launch {
             if (!isFav.value!!){
-                repository.moviedDatabaseHelperImpl.insertMovie(movieclass)
+                repository.insertMovie(movieclass)
                 _isFav.value = true
             }
             else{
-                repository.moviedDatabaseHelperImpl.deleteMovie(movieclass)
+                repository.deleteMovie(movieclass)
                 _isFav.value = false
             }
         }
     }
 
     fun showFavourite(){
-        lateinit var data: List<MovieEntity>
         viewModelScope.launch {
-            data = repository.moviedDatabaseHelperImpl.getMovies()
-            _favMovies.postValue(data)
+            _favMovies.postValue(repository.getMovies())
             //_favMovies.postValue(repository.moviedDatabaseHelperImpl.getMovies())
         }
     }
@@ -57,21 +61,22 @@ class dashboardViewModel (val repository: Repository): ViewModel(){
             //_currentMovie.postValue(string)
             _currentMovie.value = string
             //_isFav.postValue(isMovieInTable(_currentMovie.value!!)!!)
-            _isFav.value = isMovieInTable(_currentMovie.value!!)!!
+            _isFav.value = isMovieInTable(_currentMovie.value!!)
         }
     }
 
     fun changeCategory(string: String){
         category.value = string
-        getMovieListquery(string)
+        getMovieListQuery(string)
     }
 
 
-    fun getMovieListquery(category: String){
-        val response = repository.getMovieListquery(category)
+    fun getMovieListQuery(category: String){
+        val response = repository.getMovieListQuery(category)
         response.enqueue(object : Callback<MovieListData>{
             override fun onResponse(call: Call<MovieListData>, response: Response<MovieListData>) {
                 _movieList.postValue(response.body())
+                Log.d("vm", response.body().toString())
             }
 
             override fun onFailure(call: Call<MovieListData>, t: Throwable) {
@@ -80,8 +85,8 @@ class dashboardViewModel (val repository: Repository): ViewModel(){
         })
     }
 
-    suspend fun isMovieInTable(id: String): Boolean{
-        val movie = repository.moviedDatabaseHelperImpl.isMovieInTable(id)
+    private suspend fun isMovieInTable(id: String): Boolean{
+        val movie = repository.isMovieInTable(id)
 
         if (movie > 0)
             return true

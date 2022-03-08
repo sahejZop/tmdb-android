@@ -8,21 +8,21 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.tmdb.R
 import com.example.tmdb.adapters.OnClick
-import com.example.tmdb.adapters.dashboardrecycleradapter
+import com.example.tmdb.adapters.DashboardRecyclerAdapter
 import com.example.tmdb.data.MovieListData
-import com.example.tmdb.database.MovieEntity
+import com.example.tmdb.data.MovieEntity
 import com.example.tmdb.databinding.DashboardBinding
-import com.example.tmdb.viewmodels.dashboardViewModel
+import com.example.tmdb.viewmodels.DashboardViewModel
 
 class DashboardFragment(
-    private val viewModel: dashboardViewModel
+    private val viewModel: DashboardViewModel
 ) : Fragment(), OnClick {
 
     private lateinit var binding: DashboardBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.getMovieListquery(POPULAR)
+        viewModel.getMovieListQuery(POPULAR)
     }
 
     override fun onCreateView(
@@ -49,8 +49,8 @@ class DashboardFragment(
         }
 
         binding.chipFav.setOnClickListener{
-            viewModel.showFavourite()
             viewModel.onFav = true
+            viewModel.showFavourite()
         }
 
         return binding.root
@@ -63,7 +63,7 @@ class DashboardFragment(
         binding.recyclermovieslist.setItemViewCacheSize(20)
         binding.recyclermovieslist.layoutManager = GridLayoutManager(activity, 2)
 
-        val adapter = dashboardrecycleradapter(this)
+        val adapter = DashboardRecyclerAdapter(this)
 
         viewModel.movieList.observe(viewLifecycleOwner) {
             adapter.setMovieList(it)

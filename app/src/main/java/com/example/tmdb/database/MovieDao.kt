@@ -1,6 +1,7 @@
 package com.example.tmdb.database
 
 import androidx.room.*
+import com.example.tmdb.data.MovieEntity
 
 @Dao
 interface MovieDao {

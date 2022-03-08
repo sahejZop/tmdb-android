@@ -8,13 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.example.tmdb.R
-import com.example.tmdb.database.MovieEntity
+import com.example.tmdb.data.MovieEntity
 import com.example.tmdb.databinding.FragmentMovieDescriptionBinding
-import com.example.tmdb.viewmodels.dashboardViewModel
+import com.example.tmdb.viewmodels.DashboardViewModel
 
 class MovieDescriptionFragment(
     private val MovieDataObj: MovieEntity,
-    private val viewModel: dashboardViewModel
+    private val viewModel: DashboardViewModel
     ) : Fragment() {
 
     private lateinit var binding: FragmentMovieDescriptionBinding
@@ -36,22 +36,18 @@ class MovieDescriptionFragment(
 
         viewModel.isFav.observe(viewLifecycleOwner) {
             if (viewModel.isFav.value!!) {
-                binding.favbtn.text = "unfavourite"
-            } else
-                binding.favbtn.text = "favourite"
+                binding.favbtn.setImageResource(
+                        R.drawable.ic_baseline_favorite_24
+                )
+            } else{
+                binding.favbtn.setImageResource(
+                        R.drawable.ic_baseline_favorite_25
+                    )
+            }
         }
 
         binding.favbtn.setOnClickListener{
             viewModel.onFavButtonPress(MovieDataObj)
-        }
-
-        binding.testbtn.setOnClickListener{
-            val dash = DashboardFragment(viewModel)
-
-            requireActivity().supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fl, dash)
-                commit()
-            }
         }
 
         return binding.root
