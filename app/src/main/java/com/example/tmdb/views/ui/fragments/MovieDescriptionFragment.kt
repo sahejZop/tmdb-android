@@ -2,6 +2,7 @@ package com.example.tmdb.views.ui.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,9 @@ import com.example.tmdb.R
 import com.example.tmdb.databinding.FragmentMovieDescriptionBinding
 import com.example.tmdb.models.MovieEntity
 import com.example.tmdb.views.viewmodels.DashboardViewModel
+import com.google.android.youtube.player.YouTubeInitializationResult
+import com.google.android.youtube.player.YouTubePlayer
+import com.google.android.youtube.player.YouTubePlayer.OnInitializedListener
 
 class MovieDescriptionFragment(
     private val MovieDataObj: MovieEntity,
@@ -18,7 +22,7 @@ class MovieDescriptionFragment(
 ) : Fragment() {
 
     private lateinit var binding: FragmentMovieDescriptionBinding
-    val baseUrl: String = "https://image.tmdb.org/t/p/original"
+    private val baseUrl: String = "https://image.tmdb.org/t/p/original"
 
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
@@ -45,6 +49,32 @@ class MovieDescriptionFragment(
                     R.drawable.ic_baseline_favorite_25
                 )
             }
+        }
+
+        viewModel.trailer.observe(viewLifecycleOwner) {
+            Log.d("desc", "https://www.youtube.com/watch?v=$it")
+            // binding.trailerVideoView.setVideoURI(Uri.parse("https://www.youtube.com/watch?v=$it"))
+
+            binding.trailerVideoView.initialize(
+                "AIzaSyClJX4UGH8Lcgo4__5N69GCjuslDV-l8Gw",
+                object : OnInitializedListener {
+                    override fun onInitializationSuccess(
+                        p0: YouTubePlayer.Provider?,
+                        p1: YouTubePlayer?,
+                        p2: Boolean
+                    ) {
+                        p1?.loadVideo("https://www.youtube.com/watch?v=$it")
+                        p1?.play()
+                    }
+
+                    override fun onInitializationFailure(
+                        p0: YouTubePlayer.Provider?,
+                        p1: YouTubeInitializationResult?
+                    ) {
+                        // TODO("Not yet implemented")
+                    }
+                }
+            )
         }
 
         binding.favBtn.setOnClickListener {
