@@ -15,6 +15,7 @@ import com.example.tmdb.views.viewmodels.DashboardViewModel
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
 import com.google.android.youtube.player.YouTubePlayer.OnInitializedListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerCallback
 
 class MovieDescriptionFragment(
     private val MovieDataObj: MovieEntity,
@@ -36,6 +37,8 @@ class MovieDescriptionFragment(
         binding.movieOverview.text = MovieDataObj.overview
         binding.movieReleaseDate.text = MovieDataObj.release_date
 
+        lifecycle.addObserver(binding.youtubePlayerView);
+
         context?.let { Glide.with(it).load(baseUrl + MovieDataObj.poster_path).into(binding.moviePoster) }
         context?.let { Glide.with(it).load(baseUrl + MovieDataObj.backdrop_path).into(binding.movieBackdrop) }
 
@@ -54,27 +57,9 @@ class MovieDescriptionFragment(
         viewModel.trailer.observe(viewLifecycleOwner) {
             Log.d("desc", "https://www.youtube.com/watch?v=$it")
             // binding.trailerVideoView.setVideoURI(Uri.parse("https://www.youtube.com/watch?v=$it"))
+            binding.youtubePlayerView.getYouTubePlayerWhenReady(youTubePlayerCallback = youTubePlayer -> {
 
-            binding.trailerVideoView.initialize(
-                "AIzaSyClJX4UGH8Lcgo4__5N69GCjuslDV-l8Gw",
-                object : OnInitializedListener {
-                    override fun onInitializationSuccess(
-                        p0: YouTubePlayer.Provider?,
-                        p1: YouTubePlayer?,
-                        p2: Boolean
-                    ) {
-                        p1?.loadVideo("https://www.youtube.com/watch?v=$it")
-                        p1?.play()
-                    }
-
-                    override fun onInitializationFailure(
-                        p0: YouTubePlayer.Provider?,
-                        p1: YouTubeInitializationResult?
-                    ) {
-                        // TODO("Not yet implemented")
-                    }
-                }
-            )
+        })
         }
 
         binding.favBtn.setOnClickListener {
