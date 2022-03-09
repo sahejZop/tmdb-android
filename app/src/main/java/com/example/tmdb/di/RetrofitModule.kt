@@ -1,6 +1,6 @@
 package com.example.tmdb.di
 
-import com.example.tmdb.apiServices.movieApiInterface
+import com.example.tmdb.apiServices.MovieApiInterface
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -16,13 +16,13 @@ import javax.inject.Singleton
 object RetrofitModule {
     @Singleton
     @Provides
-    fun provideGson() : Gson {
+    fun provideGson(): Gson {
         return GsonBuilder().create()
     }
 
     @Singleton
     @Provides
-    fun provideRetrofit(gson: Gson) : Retrofit {
+    fun provideRetrofit(gson: Gson): Retrofit {
         return Retrofit.Builder()
             .baseUrl("https://api.themoviedb.org/3/")
             .addConverterFactory(GsonConverterFactory.create(gson))
@@ -31,8 +31,8 @@ object RetrofitModule {
 
     @Singleton
     @Provides
-    fun provideMovieService(retrofit: Retrofit) : movieApiInterface {
+    fun provideMovieService(retrofit: Retrofit): MovieApiInterface {
         return retrofit
-            .create(movieApiInterface::class.java)
+            .create(MovieApiInterface::class.java)
     }
 }

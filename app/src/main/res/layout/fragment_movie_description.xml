@@ -1,7 +1,6 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
@@ -100,14 +99,14 @@
             app:layout_constraintTop_toBottomOf="@+id/movie_poster_title_barrier" />
 
         <ImageButton
-            android:id="@+id/favbtn"
+            android:id="@+id/favBtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@android:color/transparent"
             android:text="@string/sample"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            />
+            android:contentDescription="@string/favourite_button" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

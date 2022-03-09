@@ -1,13 +1,12 @@
-package com.example.tmdb.viewmodels
+package com.example.tmdb.views.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.tmdb.models.MovieEntity
+import com.example.tmdb.models.MovieListData
 import com.example.tmdb.repository.Repository
-import com.example.tmdb.data.MovieListData
-import com.example.tmdb.data.MovieEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -17,66 +16,71 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
-    private val repository: Repository)
-    : ViewModel(){
+    private val repository: Repository
+) :
+    ViewModel() {
 
-    var onFav: Boolean = false
+    var currentPage: Int = 1
+    var currentChip: String = "popular"
 
     private val _movieList = MutableLiveData<MovieListData>()
     val movieList: LiveData<MovieListData> = _movieList
 
     val errorMessage = MutableLiveData<String>()
-    private val category = MutableLiveData<String>("popular")
 
     private val _favMovies = MutableLiveData<List<MovieEntity>>()
     val favMovies: LiveData<List<MovieEntity>> = _favMovies
 
-    private val _currentMovie  = MutableLiveData<String>()
-
-    private val _isFav = MutableLiveData<Boolean?>(false)
+    private val _isFav = MutableLiveData(false)
     val isFav: LiveData<Boolean?> = _isFav
 
-    fun onFavButtonPress(movieclass: MovieEntity){
+    var movieListData: MovieListData? = null
+
+    fun onFavButtonPress(movieEntity: MovieEntity) {
         viewModelScope.launch {
-            if (!isFav.value!!){
-                repository.insertMovie(movieclass)
+            if (!isFav.value!!) {
+                repository.insertMovie(movieEntity)
                 _isFav.value = true
-            }
-            else{
-                repository.deleteMovie(movieclass)
+            } else {
+                repository.deleteMovie(movieEntity)
                 _isFav.value = false
             }
         }
     }
 
-    fun showFavourite(){
+    fun showFavourite() {
         viewModelScope.launch {
             _favMovies.postValue(repository.getMovies())
-            //_favMovies.postValue(repository.moviedDatabaseHelperImpl.getMovies())
         }
     }
 
-    fun changeMovie(string: String){
+    fun changeMovie(movieId: String) {
         viewModelScope.launch {
-            //_currentMovie.postValue(string)
-            _currentMovie.value = string
-            //_isFav.postValue(isMovieInTable(_currentMovie.value!!)!!)
-            _isFav.value = isMovieInTable(_currentMovie.value!!)
+            _isFav.value = isMovieInTable(movieId)
         }
     }
 
-    fun changeCategory(string: String){
-        category.value = string
-        getMovieListQuery(string)
+    fun changeCategory(chipCategory: String) {
+        movieListData = null
+        currentPage = 1
+        currentChip = chipCategory
+        getMovieListQuery()
     }
 
-
-    fun getMovieListQuery(category: String){
-        val response = repository.getMovieListQuery(category)
-        response.enqueue(object : Callback<MovieListData>{
+    fun getMovieListQuery() {
+        val response = repository.getMovieListQuery(currentChip, currentPage)
+        response.enqueue(object : Callback<MovieListData> {
             override fun onResponse(call: Call<MovieListData>, response: Response<MovieListData>) {
-                _movieList.postValue(response.body())
-                Log.d("vm", response.body().toString())
+                if (movieListData == null) {
+                    movieListData = response.body()
+                } else {
+                    movieListData!!.apply {
+                        results.addAll(response.body()!!.results)
+                        page++
+                    }
+                }
+                currentPage++
+                _movieList.postValue(movieListData)
             }
 
             override fun onFailure(call: Call<MovieListData>, t: Throwable) {
@@ -85,7 +89,7 @@ class DashboardViewModel @Inject constructor(
         })
     }
 
-    private suspend fun isMovieInTable(id: String): Boolean{
+    private suspend fun isMovieInTable(id: String): Boolean {
         val movie = repository.isMovieInTable(id)
 
         if (movie > 0)

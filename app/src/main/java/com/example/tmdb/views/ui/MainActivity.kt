@@ -1,10 +1,11 @@
-package com.example.tmdb
+package com.example.tmdb.views.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
-import com.example.tmdb.fragments.DashboardFragment
-import com.example.tmdb.viewmodels.DashboardViewModel
+import androidx.appcompat.app.AppCompatActivity
+import com.example.tmdb.R
+import com.example.tmdb.views.ui.fragments.DashboardFragment
+import com.example.tmdb.views.viewmodels.DashboardViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,5 +24,4 @@ class MainActivity : AppCompatActivity() {
             commit()
         }
     }
-
 }
