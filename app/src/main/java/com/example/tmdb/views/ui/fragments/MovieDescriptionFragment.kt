@@ -12,10 +12,8 @@ import com.example.tmdb.R
 import com.example.tmdb.databinding.FragmentMovieDescriptionBinding
 import com.example.tmdb.models.MovieEntity
 import com.example.tmdb.views.viewmodels.DashboardViewModel
-import com.google.android.youtube.player.YouTubeInitializationResult
-import com.google.android.youtube.player.YouTubePlayer
-import com.google.android.youtube.player.YouTubePlayer.OnInitializedListener
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerCallback
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 
 class MovieDescriptionFragment(
     private val MovieDataObj: MovieEntity,
@@ -37,7 +35,7 @@ class MovieDescriptionFragment(
         binding.movieOverview.text = MovieDataObj.overview
         binding.movieReleaseDate.text = MovieDataObj.release_date
 
-        lifecycle.addObserver(binding.youtubePlayerView);
+        lifecycle.addObserver(binding.youtubePlayerView)
 
         context?.let { Glide.with(it).load(baseUrl + MovieDataObj.poster_path).into(binding.moviePoster) }
         context?.let { Glide.with(it).load(baseUrl + MovieDataObj.backdrop_path).into(binding.movieBackdrop) }
@@ -56,10 +54,11 @@ class MovieDescriptionFragment(
 
         viewModel.trailer.observe(viewLifecycleOwner) {
             Log.d("desc", "https://www.youtube.com/watch?v=$it")
-            // binding.trailerVideoView.setVideoURI(Uri.parse("https://www.youtube.com/watch?v=$it"))
-            binding.youtubePlayerView.getYouTubePlayerWhenReady(youTubePlayerCallback = youTubePlayer -> {
-
-        })
+            binding.youtubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+                override fun onReady(youTubePlayer: YouTubePlayer) {
+                    youTubePlayer.loadVideo(it, 0F)
+                }
+            })
         }
 
         binding.favBtn.setOnClickListener {
