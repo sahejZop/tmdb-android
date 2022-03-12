@@ -12,6 +12,7 @@ class Repository
 ) {
 
     fun getMovieListQuery(category: String, page: Int) = movieApiInterface.getMovieListQuery(category, page)
+    fun getTrailer(movieId: String) = movieApiInterface.getTrailer(movieId)
     suspend fun isMovieInTable(id: String) = movieDao.isMovieInTable(id)
     suspend fun getMovies(): List<MovieEntity> = movieDao.getMovies()
     suspend fun deleteMovie(movieClass: MovieEntity) = movieDao.deleteMovie(movieClass)

@@ -1,11 +1,13 @@
 package com.example.tmdb.views.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tmdb.models.MovieEntity
 import com.example.tmdb.models.MovieListData
+import com.example.tmdb.models.TrailerDataList
 import com.example.tmdb.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -30,6 +32,9 @@ class DashboardViewModel @Inject constructor(
 
     private val _favMovies = MutableLiveData<List<MovieEntity>>()
     val favMovies: LiveData<List<MovieEntity>> = _favMovies
+
+    private val _trailer = MutableLiveData<String>()
+    val trailer: LiveData<String> = _trailer
 
     private val _isFav = MutableLiveData(false)
     val isFav: LiveData<Boolean?> = _isFav
@@ -85,6 +90,22 @@ class DashboardViewModel @Inject constructor(
 
             override fun onFailure(call: Call<MovieListData>, t: Throwable) {
                 errorMessage.postValue(t.message)
+            }
+        })
+    }
+
+    fun getTrailer(movieId: String) {
+        val response = repository.getTrailer(movieId)
+        response.enqueue(object : Callback<TrailerDataList> {
+            override fun onResponse(
+                call: Call<TrailerDataList>,
+                response: Response<TrailerDataList>
+            ) {
+                _trailer.value = response.body()!!.results[0].key
+            }
+
+            override fun onFailure(call: Call<TrailerDataList>, t: Throwable) {
+                Log.d("vm", "fail")
             }
         })
     }

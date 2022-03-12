@@ -9,12 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tmdb.R
-import com.example.tmdb.views.adapters.DashboardRecyclerAdapter
-import com.example.tmdb.views.adapters.OnClick
 import com.example.tmdb.databinding.DashboardBinding
 import com.example.tmdb.models.MovieEntity
 import com.example.tmdb.models.MovieListData
 import com.example.tmdb.util.Constant.Companion.QUERY_PAGE_SIZE
+import com.example.tmdb.views.adapters.DashboardRecyclerAdapter
+import com.example.tmdb.views.adapters.OnClick
 import com.example.tmdb.views.viewmodels.DashboardViewModel
 
 class DashboardFragment(
@@ -82,6 +82,7 @@ class DashboardFragment(
         val movieDescriptionFragment = MovieDescriptionFragment(movieEntity, viewModel)
         viewModel.changeMovie(movieEntity.id.toString())
 
+        viewModel.getTrailer(movieEntity.id.toString())
         activity?.supportFragmentManager?.beginTransaction()?.apply {
             replace(R.id.fl, movieDescriptionFragment)
             addToBackStack(null)
